@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-homework",
+  "version": "1.0.0",
+  "description": "nodejs-homework",
+  "main": "index.js",
+  "scripts": {
+    "task1": "nodemon --exec babel-node app/task1.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/accmi/nodejs-homework.git"
+  },
+  "author": "accmi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/accmi/nodejs-homework/issues"
+  },
+  "homepage": "https://github.com/accmi/nodejs-homework#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "nodemon": "^2.0.1"
+  }
+}
