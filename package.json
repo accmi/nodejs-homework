@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "task1": "nodemon --exec babel-node app/task1.js",
+    "task2": "nodemon --exec babel-node app/task2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,9 @@
     "@babel/node": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "uuid": "^3.3.3"
   }
 }
