@@ -4,37 +4,21 @@ import * as path from 'path';
 import * as uuid from 'uuid';
 
 const fileReadPath = path.join(__dirname, '../csv/task2.csv');
-const fileWritePath = path.join(__dirname, '../csv/filesResult/');
-const charset = 'UTF-8';
-fs.readFile(fileReadPath, charset, (err, content) => {
-    if (err) {
-        console.warn(err);
-        return;   
-    }
+const fileName = `${uuid.v1()}.txt`;
+const fileWritePath = path.join(__dirname, `../csv/filesResult/${fileName}`);
 
-    if (content) {
-        csvtojson()
-        .fromString(content)
-        .then(csvRow => {
-            const result = JSON.stringify(csvRow);
-            const folderName = uuid.v1();
-            const folderPath = `${fileWritePath}${folderName}`;
-            const fileName = `${folderName}.txt`;
-            const filePath = `${folderPath}/${fileName}`;
+const readStream = fs.createReadStream(fileReadPath);
+const writeStream = fs.createWriteStream(fileWritePath);
+const converter = csvtojson();
 
-            fs.mkdirSync(folderPath);
-            fs.writeFile(filePath, result, (err) => {
-                if (err) {
-                    console.warn(err);
+readStream
+    .pipe(converter)
+    .pipe(writeStream);
 
-                    return;
-                }
-
-                console.log(`file path: ${filePath}`);
-            })
-        })
-        .catch((err) => {
-            console.warn(`CSV wasn't parse with error: ${err}`);
-        });
-    }
-});
+readStream
+    .on('error', (err) => {
+        console.error(`We have a error during wrting/reading file\n${err}`);
+    })
+    .on('end', () => {
+        console.log(`Created ${writeStream.path}`);
+    });

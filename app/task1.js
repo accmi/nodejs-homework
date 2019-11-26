@@ -1,4 +1,4 @@
-import * as readline from "readline";
+import * as readline from 'readline';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -7,9 +7,14 @@ const rl = readline.createInterface({
   });
 const textReverse = () => {
     rl.question('enter the text:\n', (answer) => {
-        const answerReverse = answer.split("").reverse().join("");
-        console.log(answerReverse);
-        textReverse();
+        if (answer) {
+            const answerReverse = answer.trim().split("").reverse().join("");
+        
+            rl.setPrompt(`${answerReverse}\n`);
+            rl.prompt();  
+        }
+
+        textReverse(); 
       });
 }
 
