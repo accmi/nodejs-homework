@@ -1,7 +1,5 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
-// TODO: Узнать как обработывать кажду строку при чтении файла CSV
-// import csvtojson from "csvtojson";
 import { Converter } from './src/controllers/Converter';
 import * as path from 'path';
 import * as uuid from 'uuid';
@@ -25,8 +23,7 @@ const rl = readline.createInterface({
     output: fs.createWriteStream(fileWritePath),
 });
 
-rl.on('line', (line) => rl.emit('pause', line));
-rl.on('pause', (line) => {
+rl.on('line', (line) => {
     if (!converter.isHeaderAdd) {
         converter.setHeader(line);
 
