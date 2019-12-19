@@ -3,9 +3,13 @@ module.exports =  {
     extends:  [
       'plugin:@typescript-eslint/recommended',  // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     ],
+    plugins: ["@typescript-eslint"],
    parserOptions:  {
       ecmaVersion:  2018,  // Allows for the parsing of modern ECMAScript features
       sourceType:  'module',  // Allows for the use of imports
+    },
+    env: {
+        "node": true
     },
     rules:  {
       // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
