@@ -1,7 +1,6 @@
-import express, { Express } from 'express';
+import express, { Express, urlencoded } from 'express';
 import { createUser, getUserById, getUsers, updateUser, deleteUser } from './controllers/users.controllers';
 import { UserRoutes } from './types/global';
-import { urlencoded } from 'body-parser';
 
 const port = Number(process.env.PORT) || 8000;
 const app: Express = express();

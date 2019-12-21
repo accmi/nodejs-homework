@@ -74,15 +74,15 @@ export const getUserById = (req: RequestType<{}, {id: string}>, res: Response) =
     }
 };
 
-export const getUsers = (req: RequestType<{}, {substring: string; limit: string}>, res: Response) => {
+export const getUsers = (req: RequestType<{}, {loginSubstring: string; limit: string}>, res: Response) => {
     try {
         const {
             query: {
-                substring,
+                loginSubstring,
                 limit,
             }
         } = req;
-        res.send(Users.getUsers(substring, Number(limit)));
+        res.send(Users.getUsers(loginSubstring, Number(limit)));
     } catch (error) {
         res.send(error).status(500);
     }

@@ -58,11 +58,14 @@ class UsersClass {
         return false;
     }
 
-    getUsers(loginSubstring: string, linit: number) {
+    getUsers(loginSubstring: string, limit: number) {
         const result = this.users
-            .filter((user) => user.login && user.login.search(loginSubstring) >= 0)
-            .sort((a, b) => a.login && b.login ? a.login.localeCompare(b.login) : -1)
-            .slice(linit);
+            .filter((user, index) => (
+                user.login
+                && user.login.search(loginSubstring) >= 0
+                && index < limit
+            ))
+            .sort((a, b) => a.login && b.login ? a.login.localeCompare(b.login) : -1);
         return result;
     }
 }
