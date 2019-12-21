@@ -1,17 +1,14 @@
-import express, { Express, urlencoded } from 'express';
-import { createUser, getUserById, getUsers, updateUser, deleteUser } from './controllers/users.controllers';
-import { UserRoutes } from './types/global';
+import express, { Express, urlencoded, Router } from 'express';
+import { UsersRouter } from './resources/users/router';
 
 const port = Number(process.env.PORT) || 8000;
 const app: Express = express();
-
-app.use(urlencoded({ extended: true }));
-
-app.post(UserRoutes.create, createUser);
-app.get(UserRoutes.getUser, getUserById);
-app.get(UserRoutes.getUsers, getUsers);
-app.put(UserRoutes.update, updateUser);
-app.delete(UserRoutes.delete, deleteUser);
-
+const router: Router = Router();
 
 app.listen(port, () => console.log(`Server is running on localhost:${port}`));
+
+app.use(urlencoded({ extended: true }));
+app.use('/', router);
+
+
+UsersRouter(router, app);
