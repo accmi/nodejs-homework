@@ -79,7 +79,7 @@ class UsersClass {
 
         return {
             status: false,
-            error: needUser && !needUser.isDeleted ? [ErrorsMessage.wasDeleted] : [ErrorsMessage.notFound],
+            error: needUser && needUser.isDeleted ? [ErrorsMessage.wasDeleted] : [ErrorsMessage.notFound],
         };
     }
 
