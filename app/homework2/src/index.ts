@@ -1,4 +1,5 @@
-import express, { Express, urlencoded, Router } from 'express';
+import express, { Express, Router } from 'express';
+import { urlencoded } from 'body-parser';
 import { UsersRouter } from './resources/users/router';
 
 const port = Number(process.env.PORT) || 8000;

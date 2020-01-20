@@ -9,7 +9,7 @@ class UsersClass {
     users: UserType[] = [];
 
     create(newUser: UserType): MutationUsersType {
-        const isUserExist = this.users.some((user) => user.id === newUser.id);
+        const isUserExist = this.users.some((user) => user.login === newUser.login);
 
         if (isUserExist) {
             return {
