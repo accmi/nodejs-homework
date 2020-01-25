@@ -1,0 +1,10 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: node-homework
+      POSTGRES_USER: misha
+      POSTGRES_PASSWORD: qwerty
+    ports:
+      - "5432:5432"
