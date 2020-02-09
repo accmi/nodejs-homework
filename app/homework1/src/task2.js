@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
-import { Converter } from './src/controllers/Converter';
+import { Converter } from './controllers/Converter';
 import * as path from 'path';
 import * as uuid from 'uuid';
 
