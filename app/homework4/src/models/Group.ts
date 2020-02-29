@@ -1,7 +1,8 @@
-import { STRING, ARRAY, Model, UUID, UUIDV1 } from 'sequelize';
+import { STRING, ARRAY, UUID, Model, UUIDV1, ENUM } from 'sequelize';
+import { GroupTypes } from '../types/group';
 import { db } from '../config/database';
-import { UserModel } from './User';
-import { UserGroupModel } from './UserGroup';
+
+import GroupPermissions = GroupTypes.GroupPermissions;
 
 export class GroupModel extends Model { }
 
@@ -15,17 +16,16 @@ GroupModel.init({
         type: STRING,
     },
     permissions: {
-        type: ARRAY(STRING),
+        type: ARRAY(ENUM(
+            GroupPermissions.DELETE,
+            GroupPermissions.READ,
+            GroupPermissions.SHARE,
+            GroupPermissions.UPLOAD_FILES,
+            GroupPermissions.WRITE,
+        )),
     },
 }, {
     sequelize: db,
     modelName: 'Group',
     freezeTableName: true,
-});
-
-GroupModel.belongsToMany(UserModel, {
-    through: UserGroupModel,
-    as: 'users',
-    foreignKey: 'groupId',
-    otherKey: 'userId',
 });

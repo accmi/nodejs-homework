@@ -136,7 +136,10 @@ export const getUsers = async (loginSubstring: string, limit: string): Promise<Q
             },
             limit: Number(limit),
             order: [['login', 'ASC']],
-            include: [GroupModel],
+            include: [{
+                model: GroupModel,
+                as: 'groups',
+            }],
         });
     
         if (Array.isArray(users)) {

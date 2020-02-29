@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize, BelongsToMany } from 'sequelize';
 
 const databaseName = process.env.DATABASE || '';
 const databaseUser = process.env.DATABASE_USER || '';
@@ -14,5 +14,5 @@ export const db = new Sequelize(
         host: databaseHost,
         port: databasePort,
         dialect: 'postgres',
-    }
+    },
 );

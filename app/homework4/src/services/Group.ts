@@ -1,4 +1,4 @@
-import { GroupModel } from '../models';
+import { GroupModel, UserModel } from '../models';
 import { GroupTypes } from '../types/group';
 
 import GroupType = GroupTypes.GroupType;
@@ -77,7 +77,6 @@ export const deleteGroup = async (id: string): Promise<MutationGroupsType> => {
         const deletedGroup = await GroupModel.destroy(
             { where: { id } }
         );
-        console.log(deletedGroup);
         if (deletedGroup > 0) {
             return {
                 status: true,
@@ -120,7 +119,12 @@ export const getGroupById = async (id: string): Promise<QueryGroupType> => {
 
 export const getGroups = async (): Promise<QueryGroupType>  => {
     try {
-        const groups = await GroupModel.findAll();
+        const groups = await GroupModel.findAll({
+            include: [{
+                model: UserModel,
+                as: 'users',
+            }],
+        });
     
         if (Array.isArray(groups)) {
             return {

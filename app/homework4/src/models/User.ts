@@ -1,4 +1,4 @@
-import { STRING, BOOLEAN, INTEGER, Model, UUID, UUIDV1 } from 'sequelize';
+import { STRING, BOOLEAN, UUID, INTEGER, Model, UUIDV1 } from 'sequelize';
 import { db } from '../config/database';
 import { GroupModel } from './Group';
 import { UserGroupModel } from './UserGroup';
@@ -28,11 +28,4 @@ UserModel.init({
     sequelize: db,
     modelName: 'User',
     freezeTableName: true,
-});
-
-UserModel.belongsToMany(GroupModel, {
-    through: UserGroupModel,
-    as: 'groups',
-    foreignKey: 'userId',
-    otherKey: 'groupId',
 });

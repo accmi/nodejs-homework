@@ -2,14 +2,14 @@ import { MutationType } from './global';
 
 export namespace UserGroupTypes {
     export enum UserGroupRoutes {
-        common = '/userGroup/*',
-        create = '/userGroup/create',
+        common = '/usersGroup/*',
+        create = '/usersGroup/create',
     }
 
     export enum ErrorsMessage {
-        notFound = 'User not found',
-        isExist = 'User already exist',
-        wasDeleted = 'User was deleted',
+        notFound = 'UsersGroup not found',
+        isExist = 'UsersGroup already exist',
+        wasDeleted = 'UsersGroup was deleted',
         uncknownError = 'Unknown error',
     }
 
