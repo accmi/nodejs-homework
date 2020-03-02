@@ -38,8 +38,8 @@ export const createGroup = async (group: GroupType): Promise<MutationGroupsType>
 };
 
 
-export const updateGroup = async (user: GroupType): Promise<MutationGroupsType> => {
-    const { id, name, permissions } = user;
+export const updateGroup = async (group: GroupType): Promise<MutationGroupsType> => {
+    const { id, name, permissions } = group;
     if (id && name && permissions) {
         try {
             const updated: number[] = await GroupModel.update(
