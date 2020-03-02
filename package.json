@@ -4,9 +4,7 @@
   "description": "nodejs-homework",
   "main": "index.js",
   "scripts": {
-    "task1.1": "nodemon --exec babel-node app/homework1/src/task1.js",
-    "task1.2": "nodemon --exec babel-node app/homework1/src/task2.js",
-    "homework4": "nodemon",
+    "start": "nodemon",
     "docker:up": "docker-compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
