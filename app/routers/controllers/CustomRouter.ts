@@ -35,7 +35,7 @@ export class CustomRouterClass {
             }).status(400);
 
             console.error({
-                name: req.headers.host,
+                name: req.method,
                 args: {
                     body: req.body,
                     query: req.query,
