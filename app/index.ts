@@ -1,9 +1,10 @@
 require('dotenv').config();
 import express, { Express, Router } from 'express';
 import { urlencoded, json } from 'body-parser';
+import { logger } from './logger';
 import { db } from './config/database';
 import { UserModel, GroupModel, UserGroupModel } from './models';
-import { UsersRouter, GroupsRouter, UsersGroupRouter } from './routers/controllers';
+import { CustomRouter } from './routers/controllers';
 
 const port = Number(process.env.PORT) || 9000;
 const app: Express = express();
@@ -31,11 +32,19 @@ db.authenticate()
     .catch((err: Error) => console.log(`Database connection error: ${err}`));
 
 app.listen(port, () => console.log(`Server is running on localhost:${port}`));
+
 app.use(urlencoded({ extended: true }));
 app.use(json());
+
+app.use(logger);
 app.use('/', router);
 
+// app.use((req, res) => {
+//     process.on('uncaughtException', (err) => {
+//         console.log(err);
+//     });
 
-UsersRouter(router, app);
-GroupsRouter(router, app);
-UsersGroupRouter(router, app);
+//     res.sendStatus(500);
+// });
+
+CustomRouter(router, app);

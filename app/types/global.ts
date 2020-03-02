@@ -5,6 +5,11 @@ export interface RequestType<Body = any, Query = any> extends Request {
     query: Query;
 }
 
+export interface ErrorResponseType {
+    status: boolean;
+    error: ErrorType | any;
+}
+
 export interface ErrorType {
     message: string;
 }

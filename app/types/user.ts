@@ -40,6 +40,4 @@ export namespace UserTypes {
         user?: UserType;
         users?: UserType[];
     }
-    
-    export type UserModelResultType = MutationUsersType | QueryUserType;
 }

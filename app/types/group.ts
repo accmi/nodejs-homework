@@ -41,6 +41,4 @@ export namespace GroupTypes {
         group?: GroupType;
         groups?: GroupType[];
     }
-
-    export type GroupModelResultType = MutationGroupsType | QueryGroupType;
 }
