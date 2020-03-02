@@ -46,7 +46,7 @@ export class CustomRouterClass {
             return;
         }
 
-        next(err);
+        next();
     }
 
     unhandledErrors(req: Request, res: Response) {
