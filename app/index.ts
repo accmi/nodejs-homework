@@ -39,12 +39,4 @@ app.use(json());
 app.use(logger);
 app.use('/', router);
 
-// app.use((req, res) => {
-//     process.on('uncaughtException', (err) => {
-//         console.log(err);
-//     });
-
-//     res.sendStatus(500);
-// });
-
 CustomRouter(router, app);

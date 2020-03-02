@@ -16,7 +16,8 @@ export class CustomRouterClass {
         
         // Errors handling
         router.use(this.statusDetect);
-        app.use(this.errorsHandler);
+        router.use(this.errorsHandler);
+        app.use(this.unhandledErrors);
     }
 
     errorsHandler(err: ErrorType | any, req: Request, res: Response, next: NextFunction) {
@@ -27,17 +28,46 @@ export class CustomRouterClass {
             const errorObject = isSequilize && err.error
                 || isDetails && err.error.details.map((detail: Error) => detail.message)
                 || err.error
-                || err;
 
             res.json({
                 status: false,
                 error: errorObject,
             }).status(400);
 
+            console.error({
+                name: req.headers.host,
+                args: {
+                    body: req.body,
+                    query: req.query,
+                },
+                error: errorObject,
+            });
+
             return;
         }
 
-        res.json(err).status(500);
+        next(err);
+    }
+
+    unhandledErrors(req: Request, res: Response) {
+        console.error({
+            name: req.method,
+            args: {
+                body: req.body,
+                query: req.query,
+            },
+            error: 'Unhandled errors',
+        });
+
+        process.on('uncaughtException', (reason) => {
+            console.error(reason);
+        });
+
+        process.on('unhandledRejection', (reason) => {
+            console.error(reason);
+        });
+
+        res.sendStatus(500);
     }
 
     statusDetect(result: ErrorResponseType, req: RequestType, res: Response, next: NextFunction) {
