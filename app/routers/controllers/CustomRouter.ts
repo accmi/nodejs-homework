@@ -30,11 +30,6 @@ export class CustomRouterClass {
                 || isDetails && err.error.details.map((detail: Error) => detail.message)
                 || err.error
 
-            res.json({
-                status: false,
-                error: errorObject,
-            }).status(400);
-
             logger.log({
                 message: req.method,
                 level: 'error',
@@ -45,7 +40,10 @@ export class CustomRouterClass {
                 error: errorObject,
             });
 
-            return;
+            return res.json({
+                status: false,
+                error: errorObject,
+            }).sendStatus(400);
         }
 
         next();
@@ -86,14 +84,12 @@ export class CustomRouterClass {
             });
         });
 
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 
     statusDetect(result: ErrorResponseType, req: RequestType, res: Response, next: NextFunction) {
         if (result.status) {
-            res.json(result).status(200);
-
-            return;
+            return res.json(result).status(200);
         }
 
         next(result);

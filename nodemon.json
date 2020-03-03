@@ -4,8 +4,8 @@
     "execMap": {
       "ts": "node --require ts-node/register"
     },
-    "exec": "eslint --fix ./app/index.ts & ts-node ./app/index.ts",
-    "watch": ["app/homework4/src/"],
+    "exec": "eslint --fix app/index.ts & ts-node app/index.ts",
+    "watch": ["app/src/"],
     "env": {
       "NODE_ENV": "development"
     },

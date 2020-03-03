@@ -1,11 +1,81 @@
 import { UserModel, GroupModel } from '../models';
 import { UserTypes } from '../types/user';
 import { Op } from 'sequelize';
+import JWT from 'jsonwebtoken';
+import { Authentication } from './Authentication';
 
 import UserType = UserTypes.UserType;
 import ErrorsMessage = UserTypes.ErrorsMessage;
 import MutationUsersType = UserTypes.MutationUsersType;
 import QueryUserType = UserTypes.QueryUserType;
+
+export const getToken = async (user: UserType, refreshToken: string): Promise<MutationUsersType> => {
+    const { login } = user;
+
+    if (login) {
+        const isExist = Authentication.checkRefreshToken(refreshToken, login);
+
+        if (isExist) {
+            const token = Authentication.getToken(login);
+
+            return {
+                status: true,
+                tokens: {
+                    token,
+                }
+            }
+        };
+
+        return {
+            status: false,
+            error: [ErrorsMessage.unauthorized],
+        }
+    }
+
+    return {
+        status: false,
+        error: [ErrorsMessage.uncknownError],
+    };
+}
+
+export const loginUser = async (user: UserType): Promise<MutationUsersType> => {
+    const { login, password } = user;
+
+    if (login && password) {
+        try {
+            const user = await UserModel.findOne(
+                {
+                    where: {
+                        login,
+                        password,
+                    },
+                });
+            if (user) {
+                const tokens = Authentication.getPairAndSetRefreshToken(login);
+
+                return {
+                    status: true,
+                    tokens,
+                };
+            }
+    
+            return {
+                status: false,
+                error: [ErrorsMessage.notFound],
+            };
+        } catch (error) {
+            return {
+                status: false,
+                error,
+            };
+        }
+    }
+
+    return {
+        status: false,
+        error: [ErrorsMessage.uncknownError],
+    };
+}
 
 export const createUser = async (user: UserType): Promise<MutationUsersType> => {
     const { login, password, age } = user;

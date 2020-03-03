@@ -8,6 +8,7 @@ export interface RequestType<Body = any, Query = any> extends Request {
 export interface ErrorResponseType {
     status: boolean;
     error: ErrorType | any;
+    errorDetail: any;
 }
 
 export interface ErrorType {
@@ -17,4 +18,8 @@ export interface ErrorType {
 export interface MutationType {
     status: boolean;
     error?: string[];
+    tokens?: {
+        token: string;
+        refreshToken?: string;
+    }
 }

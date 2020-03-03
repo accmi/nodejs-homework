@@ -5,6 +5,7 @@ import { logger } from './logger';
 import { db } from './config/database';
 import { UserModel, GroupModel, UserGroupModel } from './models';
 import { CustomRouter } from './routers/controllers';
+import { Authentication } from './services/Authentication';
 
 const port = Number(process.env.PORT) || 9000;
 const app: Express = express();
@@ -47,6 +48,7 @@ app.use('*', (req: Request, res: Response, next: NextFunction) => {
     });
     next();
 });
+app.use('/', Authentication.checkToken);
+app.use(Authentication.errorTokenHandler);
 app.use('/', router);
-
 CustomRouter(router, app);
