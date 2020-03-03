@@ -7,6 +7,7 @@ import {
 } from 'express';
 import { RequestType, ErrorType, ErrorResponseType } from '../../types/global';
 import { UsersRouter, GroupsRouter, UsersGroupRouter } from '.';
+import { logger } from '../../logger';
 
 export class CustomRouterClass {
     constructor(router: Router, app: Express) {
@@ -34,8 +35,9 @@ export class CustomRouterClass {
                 error: errorObject,
             }).status(400);
 
-            console.error({
-                name: req.method,
+            logger.log({
+                message: req.method,
+                level: 'error',
                 args: {
                     body: req.body,
                     query: req.query,
@@ -50,8 +52,9 @@ export class CustomRouterClass {
     }
 
     unhandledErrors(req: Request, res: Response) {
-        console.error({
-            name: req.method,
+        logger.log({
+            message: req.method,
+            level: 'error',
             args: {
                 body: req.body,
                 query: req.query,
@@ -60,11 +63,27 @@ export class CustomRouterClass {
         });
 
         process.on('uncaughtException', (reason) => {
-            console.error(reason);
+            logger.log({
+                message: req.method,
+                level: 'error',
+                args: {
+                    body: req.body,
+                    query: req.query,
+                },
+                error: `uncaught exception: ${reason}`,
+            });
         });
 
         process.on('unhandledRejection', (reason) => {
-            console.error(reason);
+            logger.log({
+                message: req.method,
+                level: 'error',
+                args: {
+                    body: req.body,
+                    query: req.query,
+                },
+                error: `unhandled rejection: ${reason}`,
+            });
         });
 
         res.sendStatus(500);

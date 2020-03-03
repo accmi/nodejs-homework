@@ -1,13 +1,23 @@
-import morgan from 'morgan';
-import { RequestType } from './types/global';
+import { createLogger, transports, format } from 'winston';
 
-morgan.token('args', (req: RequestType) => {
-    return JSON.stringify({
-        query: req.query,
-        body: req.body,
-    });
-});
-
-export const logger = morgan(
-    ':method :args :status :res[content-length] - :response-time ms',
-);
+export const logger = createLogger({
+    level: 'info',
+    format: format.combine(
+      format.timestamp({
+        format: 'YYYY-MM-DD HH:mm:ss'
+      }),
+      format.errors({ stack: true }),
+      format.splat(),
+      format.json()
+    ),
+    defaultMeta: { service: 'nodejs-homework' },
+    transports: [
+      new transports.Console({
+          format: format.combine(
+              format.colorize(),
+              format.simple(),
+          )
+      })
+    ]
+  });
+  

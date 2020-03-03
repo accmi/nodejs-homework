@@ -1,5 +1,5 @@
 require('dotenv').config();
-import express, { Express, Router } from 'express';
+import express, { Express, Router, Request, Response, NextFunction } from 'express';
 import { urlencoded, json } from 'body-parser';
 import { logger } from './logger';
 import { db } from './config/database';
@@ -35,8 +35,18 @@ app.listen(port, () => console.log(`Server is running on localhost:${port}`));
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
-
-app.use(logger);
+app.use('*', (req: Request, res: Response, next: NextFunction) => {
+    logger.log({
+        message: req.method,
+        args: {
+            query: req.query,
+            body: req.body
+        },
+        operation: 'request',
+        level: 'info'
+    });
+    next();
+});
 app.use('/', router);
 
 CustomRouter(router, app);
