@@ -1,6 +1,7 @@
 require('dotenv').config();
 import express, { Express, Router, Request, Response, NextFunction } from 'express';
 import { urlencoded, json } from 'body-parser';
+import cors from 'cors';
 import { logger } from './logger';
 import { db } from './config/database';
 import { UserModel, GroupModel, UserGroupModel } from './models';
@@ -31,7 +32,7 @@ db.authenticate()
         });
     })
     .catch((err: Error) => console.log(`Database connection error: ${err}`));
-
+app.use(cors());
 app.listen(port, () => console.log(`Server is running on localhost:${port}`));
 
 app.use(urlencoded({ extended: true }));
