@@ -33,6 +33,7 @@ class Auth {
 
     setRefreshToken(token: string, login: string) {
         this.refreshTokens = {
+            ...this.refreshTokens,
             [token]: login,
         }
     };
