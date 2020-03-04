@@ -1,9 +1,12 @@
 require('dotenv').config();
-import express, { Express, Router } from 'express';
+import express, { Express, Router, Request, Response, NextFunction } from 'express';
 import { urlencoded, json } from 'body-parser';
+import cors from 'cors';
+import { logger } from './logger';
 import { db } from './config/database';
 import { UserModel, GroupModel, UserGroupModel } from './models';
-import { UsersRouter, GroupsRouter, UsersGroupRouter } from './routers/controllers';
+import { CustomRouter } from './routers/controllers';
+import { Authentication } from './services/Authentication';
 
 const port = Number(process.env.PORT) || 9000;
 const app: Express = express();
@@ -29,13 +32,24 @@ db.authenticate()
         });
     })
     .catch((err: Error) => console.log(`Database connection error: ${err}`));
-
+app.use(cors());
 app.listen(port, () => console.log(`Server is running on localhost:${port}`));
+
 app.use(urlencoded({ extended: true }));
 app.use(json());
+app.use('*', (req: Request, res: Response, next: NextFunction) => {
+    logger.log({
+        message: req.method,
+        args: {
+            query: req.query,
+            body: req.body
+        },
+        operation: 'request',
+        level: 'info'
+    });
+    next();
+});
+app.use('/', Authentication.checkToken);
+app.use(Authentication.errorTokenHandler);
 app.use('/', router);
-
-
-UsersRouter(router, app);
-GroupsRouter(router, app);
-UsersGroupRouter(router, app);
+CustomRouter(router, app);

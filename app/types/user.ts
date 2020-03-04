@@ -8,6 +8,7 @@ export namespace UserTypes {
         delete = '/users/delete',
         getUser = '/users/getUser',
         getUsers = '/users/getUsers',
+        login = '/login',
     }
     
     export enum ErrorsMessage {
@@ -15,6 +16,8 @@ export namespace UserTypes {
         isExist = 'User already exist',
         wasDeleted = 'User was deleted',
         uncknownError = 'Unknown error',
+        unauthorized = 'Unauthorized',
+        forbidden = 'Forbidden',
     }
     
     export interface UserType {
@@ -40,6 +43,4 @@ export namespace UserTypes {
         user?: UserType;
         users?: UserType[];
     }
-    
-    export type UserModelResultType = MutationUsersType | QueryUserType;
 }

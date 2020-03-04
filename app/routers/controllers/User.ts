@@ -1,7 +1,6 @@
 import {
     Router,
     Response,
-    Request,
     NextFunction,
     Express,
 } from 'express';
@@ -12,19 +11,19 @@ import {
     getUserById,
     getUsers,
     deleteUser,
-} from '../../services/User';
+    loginUser,
+} from '../../services';
 
-import {
-    RequestType,
-    UserRoutes,
-    ErrorType,
-    UserType,
-    UserModelResultType,
-    GetUserByIdType,
-    GetUsersType,
-} from '../../types/global';
-import { userValidationSchema } from '../../validators/UserValidator';
+import { RequestType } from '../../types/global';
+import { userValidationSchema, loginValidationScheme } from '../../validators';
 import { createValidator } from 'express-joi-validation'
+import { UserTypes } from '../../types/user';
+
+import UserType = UserTypes.UserType;
+import UserRoutes = UserTypes.UserRoutes;
+import GetUserByIdType = UserTypes.GetUserByIdType;
+import GetUsersType = UserTypes.GetUsersType;
+
 
 const validator = createValidator({
     passError: true,
@@ -32,37 +31,16 @@ const validator = createValidator({
 
 class UserRouter {
     constructor(router: Router, app: Express) {
+        router.post(UserRoutes.login, validator.body(loginValidationScheme), this.login);
         router.post(UserRoutes.create, validator.body(userValidationSchema), this.createUser);
         router.put(UserRoutes.update, validator.body(userValidationSchema), this.updateUser);
         router.delete(UserRoutes.delete, this.deleteUser);
         router.get(UserRoutes.getUser, this.getUser);
         router.get(UserRoutes.getUsers, this.getUsers);
-        router.use(UserRoutes.common, this.statusDetect);
-
-        app.use(UserRoutes.common, this.errorsHandler);
     }
 
-    errorsHandler(err: ErrorType | any, req: Request, res: Response, next: NextFunction) {
-        if (err.error) {
-            const errorObject = err.error.details ? err.error.details.map((detail: Error) => detail.message): err;
-
-            res.json({
-                status: false,
-                error: errorObject,
-            }).status(400);
-
-            return;
-        }
-
-        res.json(err).status(500);
-    }
-
-    statusDetect(result: UserModelResultType, req: RequestType, res: Response, next: NextFunction) {
-        if (result.status) {
-            res.json(result).status(200);
-
-            return;
-        }
+    async login(req: RequestType<UserType>, res: Response, next: NextFunction) {
+        const result = await loginUser(req.body);
 
         next(result);
     }

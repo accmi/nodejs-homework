@@ -1,7 +1,6 @@
 import {
     Router,
     Response,
-    Request,
     NextFunction,
     Express,
 } from 'express';
@@ -21,7 +20,6 @@ import { GroupTypes } from '../../types/group';
 
 import GroupType = GroupTypes.GroupType;
 import GroupRoutes = GroupTypes.GroupRoutes;
-import GroupModelResultType = GroupTypes.GroupModelResultType;
 import GetGroupByIdType = GroupTypes.GetGroupByIdType;
 
 
@@ -36,34 +34,6 @@ class GroupRouter {
         router.delete(GroupRoutes.delete, this.deleteGroup);
         router.get(GroupRoutes.getGroup, this.getGroupById);
         router.get(GroupRoutes.getGroups, this.getGroups);
-        router.use(GroupRoutes.common, this.statusDetect);
-
-        app.use(GroupRoutes.common, this.errorsHandler);
-    }
-
-    errorsHandler(err: ErrorType | any, req: Request, res: Response, next: NextFunction) {
-        if (err.error) {
-            const errorObject = err.error.details ? err.error.details.map((detail: Error) => detail.message): err;
-
-            res.json({
-                status: false,
-                error: errorObject,
-            }).status(400);
-
-            return;
-        }
-
-        res.json(err).status(500);
-    }
-
-    statusDetect(result: GroupModelResultType, req: RequestType, res: Response, next: NextFunction) {
-        if (result.status) {
-            res.json(result).status(200);
-
-            return;
-        }
-
-        next(result);
     }
 
     async createGroup(req: RequestType<GroupType>, res: Response, next: NextFunction) {
