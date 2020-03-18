@@ -9,7 +9,7 @@ import { CustomRouter } from './routers/controllers';
 import { Authentication } from './services/Authentication';
 
 const port = Number(process.env.PORT) || 9000;
-const app: Express = express();
+export const app: Express = express();
 const router: Router = Router();
 
 db.authenticate()
