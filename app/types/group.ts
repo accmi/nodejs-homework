@@ -20,8 +20,8 @@ export namespace GroupTypes {
 
     export interface GroupType {
         id?: string;
-        name: string;
-        permissions: GroupPermissions[];
+        name?: string;
+        permissions?: GroupPermissions[];
     }
 
     export enum ErrorsMessage {
